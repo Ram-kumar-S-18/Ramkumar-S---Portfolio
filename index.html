@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ram Kumar S - Developer Portfolio</title>
+    
+    <!-- Google Fonts & Fontshare -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- UPDATED: Fontshare link now includes 'Satoshi' for body text -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---
+        DESIGN SYSTEM & CINEMATIC FOUNDATION
+        --- */
+        :root {
+            --color-background: #0a0a0a;
+            --color-foreground: #eaeaea;
+            --color-muted-foreground: #a1a1aa;
+            --color-primary: #00BFFF; /* DeepSkyBlue */
+            --color-primary-glow: rgba(0, 191, 255, 0.5);
+            --color-border: rgba(255, 255, 255, 0.1);
+            /* UPDATED: --font-ui now uses 'Satoshi' */
+            --font-ui: 'Satoshi', sans-serif;
+            --font-heading: 'Clash Display', sans-serif;
+            --radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-background);
+            font-family: var(--font-ui);
+            color: var(--color-foreground);
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 15% 25%, var(--color-primary), transparent 30%),
+                        radial-gradient(circle at 85% 75%, #4a00e0, transparent 30%);
+            background-size: 200% 200%;
+            animation: gradient-flow 25s ease-in-out infinite;
+            filter: blur(120px);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* ---
+        LAYOUT & SCROLL ANIMATION
+        --- */
+        .container {
+            max-width: 1280px;
+            margin: auto;
+            padding: 0 2rem;
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---
+        HERO SECTION
+        --- */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            min-height: 100vh;
+            padding: 4rem 0;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            text-shadow: 0 0 20px var(--color-primary-glow);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-muted-foreground);
+            max-width: 36rem;
+            margin: 1.5rem 0;
+        }
+        
+        .hero-cta-button {
+            background-color: var(--color-primary);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--color-primary-glow);
+            display: inline-block;
+        }
+
+        .hero-cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--color-primary-glow);
+        }
+
+        .hero-image-wrapper {
+            perspective: 1000px;
+        }
+
+        .hero-image {
+            width: 20rem;
+            height: 20rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            border: 2px solid var(--color-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.4s ease;
+        }
+        
+        .hero-image-wrapper:hover .hero-image {
+            transform: rotateY(15deg) scale(1.05);
+        }
+
+        /* ---
+        SECTION & CARD STYLES
+        --- */
+        .section {
+            padding: 8rem 0;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background: rgba(22, 22, 22, 0.4);
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border-radius: var(--radius);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border: 1px solid rgba(0, 191, 255, 0.5);
+        }
+
+        /* ---
+        PROJECT CAROUSEL
+        --- */
+        .carousel-wrapper {
+            position: relative;
+        }
+        .carousel-container {
+            display: flex;
+            gap: 2rem;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            padding-bottom: 2rem;
+        }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .project-card { flex: 0 0 45%; min-width: 350px; padding: 1.5rem; }
+        .project-image { width: 100%; height: 18rem; border-radius: 16px; object-fit: cover; margin-bottom: 1.5rem; }
+        .project-title { font-size: 1.5rem; font-weight: 700; }
+        .project-tech { color: var(--color-muted-foreground); margin-top: 0.5rem; }
+        .carousel-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; }
+        .nav-button { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--color-border); background: rgba(22, 22, 22, 0.4); color: var(--color-foreground); cursor: pointer; transition: all 0.3s ease; }
+        .nav-button:hover { background-color: var(--color-primary); color: #000; border-color: var(--color-primary); }
+
+        /* ---
+        SERVICES
+        --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card { padding: 2.5rem; text-align: center; }
+        .service-icon { color: var(--color-primary); margin-bottom: 1.5rem; }
+        .service-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+        
+        /* ---
+        EXPERIENCE TIMELINE
+        --- */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 2rem 0; }
+        .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--color-border); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; border-radius: 3px; }
+        .timeline-item { padding: 1rem 3rem; position: relative; width: 50%; }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background-color: var(--color-background); border: 3px solid var(--color-primary); top: 25px; border-radius: 50%; z-index: 1; box-shadow: 0 0 10px var(--color-primary-glow); }
+        .timeline-item:nth-child(even)::after { left: -10px; }
+        .timeline-content { padding: 1.5rem; }
+        .timeline-date { font-weight: 600; color: var(--color-primary); }
+        .timeline-role { font-size: 1.25rem; font-weight: 700; margin: 0.5rem 0; }
+        .timeline-details { color: var(--color-muted-foreground); }
+        
+        /* ---
+        SKILLS SECTION
+        --- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; }
+        .skill-category { padding: 1.5rem; }
+        .skill-category-title { font-size: 1.25rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem; }
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .skill-tag { background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--color-border); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; }
+        
+        /* ---
+        NEW: CERTIFICATIONS GALLERY
+        --- */
+        .cert-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .cert-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+            cursor: pointer;
+            aspect-ratio: 4 / 3;
+        }
+        .cert-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .cert-card:hover .cert-image {
+            transform: scale(1.1);
+        }
+        .cert-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--color-foreground);
+            font-weight: 600;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+        .cert-card:hover .cert-title-overlay {
+            transform: translateY(0);
+        }
+
+        /* ---
+        NEW: IMAGE LIGHTBOX/MODAL
+        --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 80vw;
+            max-height: 90vh;
+        }
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* ---
+        FOOTER
+        --- */
+        .footer { padding: 4rem; text-align: center; margin-top: 6rem; }
+        .footer-title { font-family: var(--font-heading); font-size: 2.5rem; }
+        .footer-subtitle { color: var(--color-muted-foreground); margin: 1rem auto 2rem; max-width: 30rem; }
+
+        /* ---
+        RESPONSIVE DESIGN
+        --- */
+        @media (max-width: 768px) {
+            .hero-section { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { order: 2; align-items: center; }
+            .hero-image-wrapper { order: 1; margin-bottom: 2rem; }
+            .hero-image { width: 12rem; height: 12rem; }
+            .project-card { flex-basis: 80%; }
+            .timeline::after { left: 10px; }
+            .timeline-item { width: 100%; padding-left: 45px; padding-right: 1rem; }
+            .timeline-item:nth-child(even) { left: 0; }
+            .timeline-item::after { left: 1px; }
+            .timeline-item:nth-child(odd) { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NEW: MODAL/LIGHTBOX FOR CERTIFICATES -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <img src="" alt="Certificate Preview" class="modal-image" id="modalImage">
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- HERO -->
+        <header class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title scroll-reveal">Hi, I’m Ram Kumar, A Proactive and Adaptable Dveloper.</h1>
+                <p class="hero-subtitle scroll-reveal" style="transition-delay: 0.1s;">
+                    I'm driven by problem-solving and continuous learning, with a passion for building secure and efficient solutions in software development, data analytics, and cybersecurity.
+                </p>
+                <div class="scroll-reveal" style="transition-delay: 0.2s;">
+                    <a href="mailto:ambikaram026@gmail.com" class="hero-cta-button">Contact Me</a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper scroll-reveal" style="transition-delay: 0.3s;">
+                <img src="my image.jpg" alt="Ram Kumar S" class="hero-image">
+            </div>
+        </header>
+
+        <!-- PROJECTS -->
+        <section class="section">
+            <h2 class="section-title scroll-reveal">My Projects</h2>
+            <div class="carousel-wrapper scroll-reveal">
+                <div class="carousel-container" id="projectCarousel"></div>
+                <div class="carousel-nav">
+                    <button class="nav-button" id="prevBtn">&lt;</button>
+                    <button class="nav-button" id="nextBtn">&gt;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section class="section">
+            <h2 class="section-title scroll-reveal">My Services</h2>
+            <div class="services-grid"></div>
+        </section>
+
+        <!-- EXPERIENCE & RESPONSIBILITIES -->
+        <section class="section">
+            <h2 class="section-title scroll-reveal">Experience & Responsibilities</h2>
+            <div class="timeline" id="experienceTimeline"></div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="section">
+            <h2 class="section-title scroll-reveal">Technical Skills</h2>
+            <div class="skills-grid card" id="skillsGrid"></div>
+        </section>
+
+        <!-- NEW: CERTIFICATIONS GALLERY SECTION -->
+        <section class="section">
+            <h2 class="section-title scroll-reveal">Credentials & Achievements</h2>
+            <p class="hero-subtitle scroll-reveal" style="text-align: center; margin-top: -3rem; margin-bottom: 3rem;">Click on any certificate to view it in full screen.</p>
+            <div class="cert-gallery-grid" id="certificationsGrid">
+                <!-- Certificate cards will be injected here -->
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="card footer scroll-reveal">
+            <h2 class="footer-title">Keen to collaborate?</h2>
+            <p class="footer-subtitle">Feel free to connect for potential collaborations or a friendly conversation!</p>
+            <a href="mailto:ambikaram026@gmail.com" class="hero-cta-button">ambikaram026@gmail.com</a>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- MASTER DATA OBJECT (From Resume) ---
+            const portfolioData = {
+                projects: [
+                    { title: "Foodiee", tech: "Full-Stack Development, Architecture, Deployment", imageUrl: "https://placehold.co/600x400/00334d/00BFFF?text=Foodiee" },
+                    { title: "Chrome Extension for Phishing Detection", tech: "Chrome Extension API, JavaScript, OAuth 2.0, Regex", imageUrl: "https://placehold.co/600x400/00334d/00BFFF?text=Phishing+Detector" },
+                    { title: "Study Portal", tech: "Web Development, UI/UX, Content Aggregation", imageUrl: "https://placehold.co/600x400/00334d/00BFFF?text=Study+Portal" },
+                    { title: "Cyber-Physical Training System", tech: "Embedded Systems, Real-Time Feedback", imageUrl: "https://placehold.co/600x400/00334d/00BFFF?text=Cyber-Physical+System" }
+                ],
+                services: [
+                    { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>', title: 'Software Development', description: 'Building secure, scalable, and efficient solutions tailored to real-world needs using Python, Java, and JavaScript.' },
+                    { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20V16"></path></svg>', title: 'Data Analytics', description: 'Leveraging Python, SQL and PowerBI to extract insights and drive data-informed decisions.' },
+                    { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>', title: 'Cybersecurity', description: 'Engineering security-focused solutions and applying best practices from my internship experience.' },
+                    { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>', title: 'Full-Stack Web Apps', description: 'Spearheading end-to-end development of web applications, from architecture to final deployment.' }
+                ],
+                experience: [
+                    { date: "Nov 2024 - Dec 2024", role: "CyberSecurity Intern", company: "Corizo Edutech", details: "Gained practical exposure to cybersecurity tools and techniques in a professional setting." },
+                    { date: "Sep 2024 - Oct 2024", role: "Full Stack Web Development Intern", company: "Corizo Edutech", details: "Contributed to end-to-end development processes, honing skills in modern web technologies." },
+                    { date: "2 Years", role: "Event Co-Ordinator", company: "University Symposium", details: "Played a key role in managing tasks and volunteers, and built a full symposium website from scratch." },
+                    { date: "Ongoing", role: "Social Worker", company: "Young Indians Club & CII", details: "Mobilized 50+ volunteers for PWD events and helped organize 350+ company stalls at the CII Expo." }
+                ],
+                skills: {
+                    "Technical & Languages": ["Python", "Java", "JavaScript"],
+                    "Data Analytics": ["Pandas & NumPy", "SQL", "Power BI", "Excel"],
+                    "Operating Systems": ["Red Hat Linux Administration"],
+                    "Cybersecurity & AI": ["Practical Tool Exposure", "Machine Learning with Python"],
+                    "Soft Skills": ["Leadership", "Decision-Making", "Communication", "Logical Thinking"]
+                },
+                // NEW: Certificates now have image URLs. Replace these with your actual image files.
+                certifications: [
+                    { title: "AWS Cloud Practitioner", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=AWS+Practitioner" },
+                    { title: "AWS S3 Basics", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=AWS+S3" },
+                    { title: "Microsoft Azure Certified", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=Azure+Certified" },
+                    { title: "Red Hat Linux Administration", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=Red+Hat" },
+                    { title: "Python for Data Science", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=Python+Data+Science" },
+                    { title: "Full Stack & Cybersecurity", imageUrl: "https://placehold.co/400x300/001f2e/00BFFF?text=Full+Stack" }
+                ]
+            };
+
+            // --- RENDER DYNAMIC CONTENT ---
+            const projectCarousel = document.getElementById('projectCarousel');
+            portfolioData.projects.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card project-card';
+                card.innerHTML = `<img src="${p.imageUrl}" alt="${p.title}" class="project-image"><h3 class="project-title">${p.title}</h3><p class="project-tech">${p.tech}</p>`;
+                projectCarousel.appendChild(card);
+            });
+            
+            const servicesGrid = document.querySelector('.services-grid');
+            portfolioData.services.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'card service-card';
+                card.innerHTML = `<div class="service-icon">${s.icon}</div><h3 class="service-title">${s.title}</h3><p class="service-description">${s.description}</p>`;
+                servicesGrid.appendChild(card);
+            });
+
+            const experienceTimeline = document.getElementById('experienceTimeline');
+            portfolioData.experience.forEach(e => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `<div class="timeline-content card"><p class="timeline-date">${e.date}</p><h3 class="timeline-role">${e.role} - ${e.company}</h3><p class="timeline-details">${e.details}</p></div>`;
+                experienceTimeline.appendChild(item);
+            });
+
+            const skillsGrid = document.getElementById('skillsGrid');
+            for (const category in portfolioData.skills) {
+                const catDiv = document.createElement('div');
+                catDiv.className = 'skill-category';
+                let skillsHTML = portfolioData.skills[category].map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+                catDiv.innerHTML = `<h3 class="skill-category-title">${category}</h3><div class="skills-list">${skillsHTML}</div>`;
+                skillsGrid.appendChild(catDiv);
+            }
+
+            // NEW: Render Certificates Gallery
+            const certificationsGrid = document.getElementById('certificationsGrid');
+            portfolioData.certifications.forEach(cert => {
+                const card = document.createElement('div');
+                card.className = 'card cert-card';
+                card.dataset.imageUrl = cert.imageUrl; // Store full image URL for modal
+                card.innerHTML = `
+                    <img src="${cert.imageUrl}" alt="${cert.title}" class="cert-image">
+                    <div class="cert-title-overlay">${cert.title}</div>
+                `;
+                certificationsGrid.appendChild(card);
+            });
+
+            // --- CAROUSEL LOGIC ---
+            const carousel = document.getElementById('projectCarousel');
+            document.getElementById('prevBtn').addEventListener('click', () => carousel.scrollLeft -= carousel.offsetWidth * 0.8);
+            document.getElementById('nextBtn').addEventListener('click', () => carousel.scrollLeft += carousel.offsetWidth * 0.8);
+
+            // --- NEW: MODAL/LIGHTBOX LOGIC ---
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalClose = document.getElementById('modalClose');
+
+            document.querySelectorAll('.cert-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    modalImage.src = card.dataset.imageUrl;
+                    modal.classList.add('active');
+                });
+            });
+
+            const closeModal = () => modal.classList.remove('active');
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // --- SCROLL REVEAL ANIMATION LOGIC ---
+            const animatedElements = document.querySelectorAll('.scroll-reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Add scroll-reveal class to dynamically created elements before observing
+            document.querySelectorAll('.card, .timeline-item').forEach(el => el.classList.add('scroll-reveal'));
+            document.querySelectorAll('.scroll-reveal').forEach((el, index) => {
+                el.style.transitionDelay = `${(index % 5) * 100}ms`; // Stagger animation
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
+
