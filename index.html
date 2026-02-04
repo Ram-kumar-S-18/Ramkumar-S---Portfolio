@@ -1578,7 +1578,16 @@
             console.log("%cSTOP!", "color: red; font-size: 40px; font-weight: bold;");
 
             // Init libraries
-            let lenis; try { if (typeof Lenis !== 'undefined') { lenis = new Lenis(); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf); } } catch (e) { }
+            let lenis;
+            try {
+                if (typeof Lenis !== 'undefined') {
+                    lenis = new Lenis({
+                        prevent: (node) => node.classList.contains('ai-chat-area')
+                    });
+                    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+                    requestAnimationFrame(raf);
+                }
+            } catch (e) { }
             gsap.registerPlugin(ScrollTrigger);
 
             // --- DATA ---
