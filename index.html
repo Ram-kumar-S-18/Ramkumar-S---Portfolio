@@ -1347,6 +1347,41 @@
                 right: 1.5rem;
             }
         }
+
+        /* Enhanced Achievements */
+        .achievement-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-primary);
+        }
+
+        .achievement-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            background: #fff;
+            padding: 5px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .achievement-text {
+            color: var(--color-muted);
+            line-height: 1.6;
+            margin: 0;
+            flex-grow: 1;
+        }
     </style>
 </head>
 
@@ -1625,12 +1660,12 @@
                     { title: "International Mobility Programme - UCSI University", imageUrl: "images/UCSI Certificate.jpeg" }
                 ],
                 achievements: [
-                    "Appointed as Campus Mantri (Official Campus Representative) for GeeksforGeeks for a 6-month tenure.",
-                    "Selected for the Global Immersion Program and visited UCSI University, Kuala Lumpur, Malaysia.",
-                    "Successfully completed the Employability Skill Training Program by Mahindra Pride Classroom.",
-                    "Secured 2nd Prize in the “Canva with AI” Workshop at SRMIST.",
-                    "Selected for the Internal SIH (Smart India Hackathon) Hackathon.",
-                    "Selected for the GIAN Course “Chain of Things: Blockchain & IoT” at IIT Ropar."
+                    { text: "Appointed as Campus Mantri (Official Campus Representative) for GeeksforGeeks for a 6-month tenure.", logo: "https://upload.wikimedia.org/wikipedia/commons/4/43/GeeksforGeeks.svg" },
+                    { text: "Selected for the Global Immersion Program and visited UCSI University, Kuala Lumpur, Malaysia.", logo: "images/achievements/ucsi.png" },
+                    { text: "Successfully completed the Employability Skill Training Program by Mahindra Pride Classroom.", logo: "images/achievements/mahindra.png" },
+                    { text: "Secured 2nd Prize in the “Canva with AI” Workshop at SRMIST.", logo: "images/achievements/canva.png" },
+                    { text: "Selected for the Internal SIH (Smart India Hackathon) Hackathon.", logo: "https://www.sih.gov.in/img/logo.png" },
+                    { text: "Selected for the GIAN Course “Chain of Things: Blockchain & IoT” at IIT Ropar.", logo: "images/achievements/gian.png" }
                 ]
             };
 
@@ -1717,7 +1752,10 @@
             ).join('');
 
             document.getElementById('achievementsList').innerHTML = portfolioData.achievements.map(a =>
-                `<li class="achievement-item"><p>${a}</p></li>`
+                `<li class="achievement-item">
+                    <img src="${a.logo}" alt="Achievement Logo" class="achievement-logo" onerror="this.style.display='none'">
+                    <p class="achievement-text">${a.text}</p>
+                </li>`
             ).join('');
 
 
