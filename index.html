@@ -416,64 +416,60 @@
             }
         }
 
-        /* --- CAROUSEL --- */
-        .project-carousel-nav {
+
+        /* --- PROJECT CAROUSEL (Standard Horizontal Scroll) --- */
+
+        .project-carousel-header {
             display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .project-carousel-nav button {
-            background: none;
-            border: 1px solid var(--color-border);
-            color: var(--color-foreground);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .project-carousel-nav button:hover {
-            background-color: var(--color-primary);
-            color: var(--color-background);
-            border-color: var(--color-primary);
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .project-carousel-container {
             display: flex;
-            gap: 2rem;
-            overflow-x: scroll;
+            overflow-x: auto;
+            gap: 3rem;
+            /* Increased gap */
+            padding: 2rem 0;
             scroll-behavior: smooth;
-            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            padding: 1rem 0;
+            /* Firefox */
         }
 
         .project-carousel-container::-webkit-scrollbar {
             display: none;
+            /* Chrome/Safari */
         }
 
         .project-card {
-            flex: 0 0 400px;
+            flex: 0 0 600px;
+            /* Increased width */
+            background: #050505;
             border: 1px solid var(--color-border);
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
 
         .project-card:hover {
-            border-color: var(--color-foreground);
+            transform: translateY(-10px);
+            border-color: var(--color-primary);
         }
 
         .project-card-image {
             width: 100%;
-            height: 250px;
-            background-color: #000;
-            /* Dark background for letters boxed content */
-            object-fit: contain;
-            /* Shows full image */
+            height: 350px;
+            /* Increased height */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-card-image {
+            transform: scale(1.05);
         }
 
         .project-card-content {
@@ -481,15 +477,32 @@
         }
 
         .project-card-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--color-foreground);
         }
 
         .project-card-description {
             color: var(--color-muted);
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .project-card {
+                flex: 0 0 300px;
+                /* Smaller on mobile */
+            }
+
+            .project-card-image {
+                height: 200px;
+            }
         }
 
         /* --- ACCORDION --- */
@@ -1342,60 +1355,7 @@
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <div class="modal-overlay" id="imageModal">
-        <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
-            <img src="" alt="Certificate Preview" class="modal-image" id="modalImage">
-        </div>
-    </div>
 
-
-    <div class="modal-overlay" id="projectModal">
-        <div class="project-modal-content">
-            <span class="project-modal-close" id="projectModalClose">&times;</span>
-            <img src="" alt="Project Preview" class="project-modal-image" id="projectModalImage">
-            <div class="project-modal-body">
-                <h3 class="project-modal-title" id="projectModalTitle"></h3>
-                <p class="project-modal-description" id="projectModalDescription"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI SIDEBAR CONTAINER -->
-    <div class="ai-modal-overlay" id="aiModal">
-        <div class="ai-modal-content">
-            <div class="ai-header">
-                <div class="ai-title">
-                    <div class="ai-status"></div>AI Recruiter Assistant
-                </div>
-                <span class="ai-close" id="aiModalClose">&times;</span>
-            </div>
-
-            <!-- Data attribute to stop Lenis scroll hijacking -->
-            <div class="ai-chat-area" id="aiChatArea" data-lenis-prevent>
-                <div class="ai-message system">AI Agent Online. Reading Portfolio Data...</div>
-                <div class="ai-message assistant">Hello! I'm Ram's AI Assistant. I've analyzed his resume and portfolio.
-                    What would you like to know regarding his qualifications?</div>
-            </div>
-
-            <div class="ai-controls">
-                <button class="ai-faq-btn" onclick="handleFAQClick('intro')">Brief Introduction <span>→</span></button>
-                <button class="ai-faq-btn" onclick="handleFAQClick('tech_stack')">Technical Strengths
-                    <span>→</span></button>
-                <button class="ai-faq-btn" onclick="handleFAQClick('experience')">Real-world Experience
-                    <span>→</span></button>
-                <button class="ai-faq-btn" onclick="handleFAQClick('why_hire')">Why hire Ram? <span>→</span></button>
-            </div>
-        </div>
-    </div>
-
-    <button class="ai-assistant-button" id="aiButton" aria-label="Open AI Assistant">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM18 12.75l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 18l-1.035.259a3.375 3.375 0 00-2.456 2.456L18 21.75l-.259-1.035a3.375 3.375 0 00-2.456-2.456L14.25 18l1.035-.259a3.375 3.375 0 002.456-2.456L18 12.75z" />
-        </svg>
-    </button>
 
     <header class="header">
         <div class="container">
@@ -1552,7 +1512,64 @@
         </div>
     </div>
 
-    <!-- MAIN SCRIPT (BACKEND CONNECTED) -->
+    <!-- MODALS -->
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="imageModal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="Certificate Preview" class="modal-image" id="modalImage">
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="project-modal-content">
+            <div class="project-modal-close" id="projectModalClose">&times;</div>
+            <img src="" alt="Project Preview" class="project-modal-image" id="projectModalImage">
+            <div class="project-modal-body">
+                <h3 class="project-modal-title" id="projectModalTitle"></h3>
+                <p class="project-modal-description" id="projectModalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant Modal -->
+    <div class="ai-modal-overlay" id="aiModal">
+        <div class="ai-modal-content">
+            <div class="ai-header">
+                <div class="ai-title">
+                    <div class="ai-status"></div>
+                    AI Recruiter Assistant
+                </div>
+                <div class="ai-close" id="aiModalClose">&times;</div>
+            </div>
+            <div class="ai-chat-area" id="aiChatArea">
+                <div class="ai-message system">
+                    AI Agent Online. Reading Portfolio Data...
+                </div>
+                <div class="ai-message assistant">
+                    Hello! I'm Ram's AI Assistant. I've analyzed his resume and portfolio. What would you like to know
+                    regarding his qualifications?
+                </div>
+            </div>
+            <div class="ai-controls">
+                <button class="ai-faq-btn" onclick="handleFAQClick('intro')">Brief Introduction →</button>
+                <button class="ai-faq-btn" onclick="handleFAQClick('skills')">Technical Strengths →</button>
+                <button class="ai-faq-btn" onclick="handleFAQClick('experience')">Real-world Experience →</button>
+                <button class="ai-faq-btn" onclick="handleFAQClick('why_hire')">Why hire Ram? →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Trigger Button -->
+    <div class="ai-assistant-button" id="aiButton">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M19,1L17.74,3.75L15,5L17.74,6.26L19,9L20.25,6.26L23,5L20.25,3.75M9,4L6.5,9.5L1,12L6.5,14.5L9,20L11.5,14.5L17,12L11.5,9.5M19,15L17.74,17.74L15,19L17.74,20.25L19,23L20.25,20.25L23,19L20.25,17.74">
+            </path>
+        </svg>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             // SECURITY: Disable Context Menu & Shortcuts
@@ -1610,20 +1627,98 @@
 
             // Render content
             document.getElementById('skillsMarquee').innerHTML = portfolioData.marqueeSkills.map(s => `<div class="skill-item"><span>•</span> ${s}</div>`).join('').repeat(2);
-            portfolioData.projects.forEach((p, index) => document.getElementById('projectCarousel').innerHTML += `<div class="project-card" data-index="${index}"><img src="${p.imageUrl}" class="project-card-image"><div class="project-card-content"><h3 class="project-card-title">${p.title}</h3><p class="project-card-description">${p.description}</p></div></div>`);
-            portfolioData.experience.forEach(i => document.getElementById('experienceAccordion').innerHTML += `<div class="experience-item"><div class="experience-header"><div><h3>${i.role}</h3><span>${i.company} / ${i.date}</span></div><span class="experience-icon">+</span></div><div class="experience-content"><p>${i.description}</p><div class="tags">${i.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></div></div>`);
-            portfolioData.skillGrid.forEach(c => document.getElementById('skillsGrid').innerHTML += `<div class="skill-card"><h3 class="skill-card-title">${c.title}</h3><p class="skill-card-description">${c.description}</p></div>`);
-            portfolioData.credentials.forEach(c => document.getElementById('certificationsGrid').innerHTML += `<div class="cert-card" data-image-url="${c.imageUrl}"><img src="${c.imageUrl}" class="cert-image"><div class="cert-title-overlay">${c.title}</div></div>`);
-            portfolioData.achievements.forEach(a => document.getElementById('achievementsList').innerHTML += `<li class="achievement-item"><p>${a}</p></li>`);
+
+            // --- MODALS & HELPERS ---
+            // Project Modal
+            const pModal = document.getElementById('projectModal'), pClose = document.getElementById('projectModalClose');
+            const pTitle = document.getElementById('projectModalTitle'), pDesc = document.getElementById('projectModalDescription'), pImg = document.getElementById('projectModalImage');
+
+            const closeP = () => pModal.classList.remove('active');
+            pClose.addEventListener('click', closeP);
+            pModal.addEventListener('click', e => { if (e.target === pModal) closeP(); });
+
+            const openProjectModal = (idx) => {
+                const data = portfolioData.projects[idx];
+                pTitle.textContent = data.title;
+                pDesc.textContent = data.description;
+                pImg.src = data.imageUrl;
+                pModal.classList.add('active');
+            };
+
+            // --- PROJECT LIST RENDER ---
+            const projectContainer = document.getElementById('projectCarousel');
+            portfolioData.projects.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.dataset.index = index;
+                card.innerHTML = `
+                    <img src="${p.imageUrl}" class="project-card-image">
+                    <div class="project-card-content">
+                        <h3 class="project-card-title">${p.title}</h3>
+                        <p class="project-card-description">${p.description}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => openProjectModal(index));
+                projectContainer.appendChild(card);
+            });
+
+
+            // --- AUTO-SCROLL ON HOVER ---
+            let scrollTimeout = null;
+
+            portfolioData.projects.forEach((_, index) => {
+                const card = projectContainer.children[index];
+
+                // Desktop: hover to scroll
+                card.addEventListener('mouseenter', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        card.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'center'
+                        });
+                    }, 200); // Small delay to prevent accidental triggers
+                });
+
+                // Mobile: touch to scroll
+                card.addEventListener('touchstart', (e) => {
+                    // Allow default touch scrolling but also center on touch
+                    setTimeout(() => {
+                        card.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'center'
+                        });
+                    }, 100);
+                }, { passive: true });
+            });
+
+            // --- LIST RENDERING (Optimized) ---
+            document.getElementById('experienceAccordion').innerHTML = portfolioData.experience.map(i =>
+                `<div class="experience-item"><div class="experience-header"><div><h3>${i.role}</h3><span>${i.company} / ${i.date}</span></div><span class="experience-icon">+</span></div><div class="experience-content"><p>${i.description}</p><div class="tags">${i.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></div></div>`
+            ).join('');
+
+            document.getElementById('skillsGrid').innerHTML = portfolioData.skillGrid.map(c =>
+                `<div class="skill-card"><h3 class="skill-card-title">${c.title}</h3><p class="skill-card-description">${c.description}</p></div>`
+            ).join('');
+
+            document.getElementById('certificationsGrid').innerHTML = portfolioData.credentials.map(c =>
+                `<div class="cert-card" data-image-url="${c.imageUrl}"><img src="${c.imageUrl}" class="cert-image"><div class="cert-title-overlay">${c.title}</div></div>`
+            ).join('');
+
+            document.getElementById('achievementsList').innerHTML = portfolioData.achievements.map(a =>
+                `<li class="achievement-item"><p>${a}</p></li>`
+            ).join('');
+
+
 
             // Animations setup
             const hero = document.querySelector('.hero-section'), hContent = document.querySelector('.hero-content'), hImage = document.querySelector('.hero-image');
             gsap.to(hContent, { y: -200, opacity: 0, scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1 } });
             gsap.to(hImage, { y: -100, scale: 1, scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1 } });
-            hero.addEventListener('mousemove', e => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 2, y = (e.clientY / window.innerHeight - 0.5) * 2;
-                gsap.to(hContent, { x: -x * 30, y: -y * 30, duration: 1 }); gsap.to(hImage, { x: x * 10, y: y * 10, duration: 1 });
-            });
+            // Cleaned up existing carousel logic block
+
 
             gsap.fromTo(document.querySelectorAll('.reveal-load'), { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.2 });
             document.querySelectorAll('.reveal').forEach(el => gsap.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, scrollTrigger: { trigger: el, start: 'top 85%' } }));
@@ -1660,56 +1755,21 @@
             document.querySelectorAll('a, button, .experience-header, .cert-card').forEach(el => { el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-hover')); });
             document.querySelectorAll('.about-text').forEach(el => { el.addEventListener('mouseenter', () => { cursorOutline.classList.add('cursor-text'); cursorDot.classList.add('cursor-text'); }); el.addEventListener('mouseleave', () => { cursorOutline.classList.remove('cursor-text'); cursorDot.classList.remove('cursor-text'); }); });
 
-            const carousel = document.getElementById('projectCarousel');
 
 
-            // Auto-Carousel Logic (1s duration)
-            let autoScrollFn;
-            const startAutoScroll = () => {
-                autoScrollFn = setInterval(() => {
-                    if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth) {
-                        carousel.scrollTo({ left: 0, behavior: 'smooth' }); // Loop back to start
-                    } else {
-                        carousel.scrollLeft += 420; // Scroll next
-                    }
-                }, 1000); // 1 second interval
-            };
-            const stopAutoScroll = () => clearInterval(autoScrollFn);
 
-            // Start auto-scroll
-            startAutoScroll();
 
-            // Pause on hover
-            carousel.addEventListener('mouseenter', stopAutoScroll);
-            carousel.addEventListener('mouseleave', startAutoScroll);
-
+            // Experience Accordion
             document.querySelectorAll('.experience-header').forEach(h => h.addEventListener('click', () => {
                 document.querySelectorAll('.experience-item.active').forEach(i => { if (i !== h.parentElement) i.classList.remove('active'); });
                 h.parentElement.classList.toggle('active');
             }));
 
+            // Image Modal (Certificates)
             const modal = document.getElementById('imageModal'), mImg = document.getElementById('modalImage'), mClose = document.getElementById('modalClose');
             document.querySelectorAll('.cert-card').forEach(c => c.addEventListener('click', () => { mImg.src = c.dataset.imageUrl; modal.classList.add('active'); }));
             const closeM = () => modal.classList.remove('active');
             mClose.addEventListener('click', closeM); modal.addEventListener('click', e => { if (e.target === modal) closeM(); });
-
-            // Project Modal Logic
-            const pModal = document.getElementById('projectModal'), pClose = document.getElementById('projectModalClose');
-            const pTitle = document.getElementById('projectModalTitle'), pDesc = document.getElementById('projectModalDescription'), pImg = document.getElementById('projectModalImage');
-
-            document.querySelectorAll('.project-card').forEach(c => {
-                c.addEventListener('click', () => {
-                    const idx = c.dataset.index;
-                    const data = portfolioData.projects[idx];
-                    pTitle.textContent = data.title;
-                    pDesc.textContent = data.description;
-                    pImg.src = data.imageUrl;
-                    pModal.classList.add('active');
-                });
-            });
-            const closeP = () => pModal.classList.remove('active');
-            pClose.addEventListener('click', closeP); pModal.addEventListener('click', e => { if (e.target === pModal) closeP(); });
-
 
             // AI Integration
             const aiBtn = document.getElementById('aiButton'), aiModal = document.getElementById('aiModal'), aiClose = document.getElementById('aiModalClose'), aiChat = document.getElementById('aiChatArea');
