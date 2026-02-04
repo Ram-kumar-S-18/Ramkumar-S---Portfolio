@@ -1851,8 +1851,8 @@
                 }
             };
 
-            aiBtn.addEventListener('click', () => { aiModal.classList.add('active'); lockScroll(); });
-            const closeAI = () => { aiModal.classList.remove('active'); unlockScroll(); if (currAudio) currAudio.pause(); };
+            aiBtn.addEventListener('click', () => { aiModal.classList.add('active'); });
+            const closeAI = () => { aiModal.classList.remove('active'); if (currAudio) currAudio.pause(); };
             aiClose.addEventListener('click', closeAI);
             aiModal.addEventListener('click', e => { if (e.target === aiModal) closeAI(); });
         });
